@@ -12,6 +12,7 @@ export class Mongo {
 
   init() : any {
     let self = this;
+    let connecting = 0;
     if (self._modules.mongoose.connection.readyState === 0) {
       console.log(this._modules.chalk.red.bold('Mongo DB Started'));
 
@@ -19,7 +20,11 @@ export class Mongo {
 
       this._modules.mongoose.connection.on('connecting', _ => {
         connectingState = setInterval(_ => {
-          console.log(self._modules.chalk.green.bold('Connecting...'));
+          connecting++;
+
+          if (connecting <= 5) {
+            console.log(self._modules.chalk.green.bold('Connecting...'));
+          }
         }, 300);
       });
 
